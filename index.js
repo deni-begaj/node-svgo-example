@@ -5,69 +5,69 @@ const readline = require('readline');
 
 var svgo = new svgoPlugin({
    plugins: [{
-          cleanupAttrs: true,
+          cleanupAttrs: false,
         }, {
-          removeDoctype: true,
+          removeDoctype: false,
         },{
-          removeXMLProcInst: true,
+          removeXMLProcInst: false,
         },{
-          removeComments: true,
+          removeComments: false,
         },{
-          removeMetadata: true,
+          removeMetadata: false,
         },{
-          removeTitle: true,
+          removeTitle: false,
         },{
-          removeDesc: true,
+          removeDesc: false,
         },{
-          removeUselessDefs: true,
+          removeUselessDefs: false,
         },{
-          removeEditorsNSData: true,
+          removeEditorsNSData: false,
         },{
-          removeEmptyAttrs: true,
+          removeEmptyAttrs: false,
         },{
-          removeHiddenElems: true,
+          removeHiddenElems: false,
         },{
-          removeEmptyText: true,
+          removeEmptyText: false,
         },{
-          removeEmptyContainers: true,
+          removeEmptyContainers: false,
         },{
           removeViewBox: false,
         },{
-          cleanupEnableBackground: true,
+          cleanupEnableBackground: false,
         },{
-          convertStyleToAttrs: true,
+          convertStyleToAttrs: false,
         },{
-          convertColors: true,
+          convertColors: false,
         },{
-          convertPathData: true,
+          convertPathData: false,
         },{
-          convertTransform: true,
+          convertTransform: false,
         },{
-          removeUnknownsAndDefaults: true,
+          removeUnknownsAndDefaults: false,
         },{
-          removeNonInheritableGroupAttrs: true,
+          removeNonInheritableGroupAttrs: false,
         },{
-          removeUselessStrokeAndFill: true,
+          removeUselessStrokeAndFill: false,
         },{
-          removeUnusedNS: true,
+          removeUnusedNS: false,
         },{
-          cleanupIDs: true,
+          cleanupIDs: false,
         },{
-          cleanupNumericValues: true,
+          cleanupNumericValues: false,
         },{
-          moveElemsAttrsToGroup: true,
+          moveElemsAttrsToGroup: false,
         },{
-          moveGroupAttrsToElems: true,
+          moveGroupAttrsToElems: false,
         },{
-          collapseGroups: true,
+          collapseGroups: false,
         },{
           removeRasterImages: false,
         },{
-          mergePaths: true,
+          mergePaths: false,
         },{
-          convertShapeToPath: true,
+          convertShapeToPath: false,
         },{
-          sortAttrs: true,
+          sortAttrs: false,
         },{
           removeDimensions: true,
         },{
