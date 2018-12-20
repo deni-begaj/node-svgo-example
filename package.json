@@ -1,0 +1,16 @@
+{
+  "name": "nodejs-script-svg",
+  "version": "1.0.0",
+  "description": "This is the script for editing svg files",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Deni Begaj",
+  "license": "MIT",
+  "dependencies": {
+    "fs": "0.0.1-security",
+    "svgo": "^1.1.1"
+  }
+}
