@@ -126,7 +126,12 @@ rl.question('Enter the root path of your machine (for ex: \"C:\\Users\\XIAOMI\\D
 
                 svgo.optimize(data, {path: svgPath}).then(function(result) {
                     console.log("Finished optiomizing file.");
-                    fs.writeFileSync(svgPath, result.data); 
+                    fs.writeFile(svgPath, result.data, function(err, data){
+                        if(err){
+                          console.log("error on writeFile: "+ err);
+                          throw err;
+                        }
+                    }); 
                 });
             });
 
