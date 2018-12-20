@@ -4,76 +4,76 @@ const svgoPlugin = require('svgo');
 const readline = require('readline');
 
 var svgo = new svgoPlugin({
-    plugins: [ 
-        {
-            cleanupAttrs: true,
-          }, {
-            removeDoctype: false,
-          },{
-            removeXMLProcInst: false,
-          },{
-            removeComments: false,
-          },{
-            removeMetadata: false,
-          },{
-            removeTitle: false,
-          },{
-            removeDesc: false,
-          },{
-            removeUselessDefs: false,
-          },{
-            removeEditorsNSData: false,
-          },{
-            removeEmptyAttrs: false,
-          },{
-            removeHiddenElems: false,
-          },{
-            removeEmptyText: false,
-          },{
-            removeEmptyContainers: false,
-          },{
-            cleanupEnableBackground: false,
-          },{
-            convertStyleToAttrs: false,
-          },{
-            convertColors: false,
-          },{
-            convertPathData: false,
-          },{
-            convertTransform: false,
-          },{
-            removeUnknownsAndDefaults: false,
-          },{
-            removeNonInheritableGroupAttrs: false,
-          },{
-            removeUselessStrokeAndFill: false,
-          },{
-            removeUnusedNS: false,
-          },{
-            cleanupIDs: false,
-          },{
-            cleanupNumericValues: false,
-          },{
-            moveElemsAttrsToGroup: false,
-          },{
-            moveGroupAttrsToElems: false,
-          },{
-            collapseGroups: false,
-          },{
-            removeRasterImages: false,
-          },{
-            mergePaths: false,
-          },{
-            convertShapeToPath: false,
-          },{
-            sortAttrs: true,
-          },{
-            removeViewBox: false,
-          },{
-            removeDimensions: true,
-          }
-    ]
-});
+   plugins: [{
+          cleanupAttrs: true,
+        }, {
+          removeDoctype: true,
+        },{
+          removeXMLProcInst: true,
+        },{
+          removeComments: true,
+        },{
+          removeMetadata: true,
+        },{
+          removeTitle: true,
+        },{
+          removeDesc: true,
+        },{
+          removeUselessDefs: true,
+        },{
+          removeEditorsNSData: true,
+        },{
+          removeEmptyAttrs: true,
+        },{
+          removeHiddenElems: true,
+        },{
+          removeEmptyText: true,
+        },{
+          removeEmptyContainers: true,
+        },{
+          removeViewBox: false,
+        },{
+          cleanupEnableBackground: true,
+        },{
+          convertStyleToAttrs: true,
+        },{
+          convertColors: true,
+        },{
+          convertPathData: true,
+        },{
+          convertTransform: true,
+        },{
+          removeUnknownsAndDefaults: true,
+        },{
+          removeNonInheritableGroupAttrs: true,
+        },{
+          removeUselessStrokeAndFill: true,
+        },{
+          removeUnusedNS: true,
+        },{
+          cleanupIDs: true,
+        },{
+          cleanupNumericValues: true,
+        },{
+          moveElemsAttrsToGroup: true,
+        },{
+          moveGroupAttrsToElems: true,
+        },{
+          collapseGroups: true,
+        },{
+          removeRasterImages: false,
+        },{
+          mergePaths: true,
+        },{
+          convertShapeToPath: true,
+        },{
+          sortAttrs: true,
+        },{
+          removeDimensions: true,
+        },{
+          removeAttrs: {attrs: '(stroke|fill)'},
+        }]
+      });
 
 const rl = readline.createInterface({ input: process.stdin, output: process.stdout });
 
