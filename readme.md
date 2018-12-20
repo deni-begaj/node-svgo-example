@@ -1,6 +1,6 @@
 ## Node SVGO Example script
 
-### This is the script for editing svg files.
+### This is a sample script for editing svg files inside a specifief path, on all its subdirectories.
 
 #### Steps to run the script.
 1. On the commandline type `npm i` inside the root folder.
