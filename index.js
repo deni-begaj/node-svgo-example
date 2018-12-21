@@ -74,7 +74,7 @@ const svgo = new svgoPlugin({
         }]
 });
 
-const rl = readline.createInterface({ input: process.stdin, output: process.stdout });
+const rl = readline.createInterface({ input: process.stdin, output: process.stdout, terminal:false });
 const rl1 = readline.createInterface({ input: process.stdin, output: process.stdout });
 
 let walk = function(dir, ext, done) {
@@ -131,23 +131,22 @@ let mainF = async function() {
     try {
 
         // C:\Users\XIAOMI\Desktop\Work\Fiverr\nodejs-script-svg\folder
-        console.log("\nWelcome to the file cleaner.");
+        console.log("\nWelcome to the file cleaner.\n");
         let url = await questionAsync(rl, 'Enter the path you want to start from ? ');
         let results = await walkAsync(url, ".svg");
         
-        let ext = await questionAsync(rl1, 'Enter the file extension you want to clean from the selected folder ? ');    
-        if(ext.match(/svg/i)) {
-          console.log("You cannot delete the svg files.");
-          return;
-        }
-        let resultsDel = await walkAsync(url, "." + ext);
-        let resUppercase = await walkAsync(url, "." + ext.toUpperCase());
-        resultsDel.push.apply(resultsDel, resUppercase);   
-
-        resultsDel.forEach(function(svgPath){
+        let ext = await questionAsync(rl, 'Enter the file extension you want to clean from the selected folder ? ');    
+        if(!ext.match(/svg/i)) {
+          
+          let resultsDel = await walkAsync(url, "." + ext);
+          let resUppercase = await walkAsync(url, "." + ext.toUpperCase());
+          resultsDel.push.apply(resultsDel, resUppercase);   
+          
+          resultsDel.forEach(function(svgPath){
             fs.unlinkSync(svgPath);
-        });
-        console.log(resultsDel.length + " files with extension \"" + ext + "\" were deleted succesfully.");
+          });
+          console.log("\n" + resultsDel.length + " files with extension \"" + ext + "\" were deleted succesfully.");
+        }
     
         results.forEach(async function(svgPath){
             let data = fs.readFileSync(svgPath, 'utf8');
@@ -157,7 +156,7 @@ let mainF = async function() {
         console.log(results.length + " files with extension \"svg\" were modified succesfully.");
 
         rl.close();
-        rl1.close();
+        // rl1.close();
 
 
     } catch(ex) {
