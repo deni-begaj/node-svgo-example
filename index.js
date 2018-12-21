@@ -2,9 +2,8 @@ const fs = require('fs');
 const path = require('path');
 const svgoPlugin = require('svgo');
 const readline = require('readline');
-
-var svgo = new svgoPlugin({
-   plugins: [{
+const svgo = new svgoPlugin({
+    plugins: [{
           cleanupAttrs: false,
         }, {
           removeDoctype: false,
@@ -73,18 +72,19 @@ var svgo = new svgoPlugin({
         },{
           removeAttrs: {attrs: '(stroke|fill)'},
         }]
-      });
+});
 
 const rl = readline.createInterface({ input: process.stdin, output: process.stdout });
+const rl1 = readline.createInterface({ input: process.stdin, output: process.stdout });
 
-var walk = function(dir, done) {
-    var results = [];
+let walk = function(dir, ext, done) {
+    let results = [];
     fs.readdir(dir, function(err, list) {
         if (err) {
-            console.log("Enters error 1");
+            console.log("Enters error 1: " + err);
             return done(err); 
         }
-        var pending = list.length;
+        let pending = list.length;
         if (!pending) {
             return done(null, results); 
         }
@@ -92,12 +92,14 @@ var walk = function(dir, done) {
             file = path.resolve(dir, file);
             fs.stat(file, function(err, stat) {
                 if (stat && stat.isDirectory()) {
-                    walk(file, function(err, res) {
+                    walk(file, ext, function(err, res) {
                         results = results.concat(res);
                         if (!--pending) done(null, results);
                     });
                 } else {
-                    results.push(file);
+                    if(file.indexOf(ext) > 0) {
+                        results.push(file);
+                    }
                     if (!--pending) done(null, results);
                 }
             });
@@ -105,41 +107,70 @@ var walk = function(dir, done) {
     });
 };
 
-rl.question('Enter the root path of your machine (for ex: \"C:\\Users\\XIAOMI\\Desktop\\Work\\Fiverr\\nodejs-script-svg\") ? ', (url) => {
-    console.log(`Your answer: ${url}`);
-    // You can use this as an example :    C:\Users\XIAOMI\Desktop\Work\Fiverr\nodejs-script-svg\folder
-    
-    walk(url, function(err, results) {
-        if (err) {
-            console.log("Error on walk " + err);
-            throw err;
+let walkAsync = function(dir, ext)  {
+  return new Promise((resolve, reject) => {
+    walk(dir, ext, function(err, result) {
+          if (err) {
+              reject(err);
+          } else {
+              resolve(result);
+          }
+      })
+  })
+}
+
+let questionAsync = function(rl, str)  {
+  return new Promise((resolve, reject) => {
+      rl.question(str, function(answer) {
+          resolve(answer);
+      })
+  })
+}
+
+let mainF = async function() {
+    try {
+
+        // C:\Users\XIAOMI\Desktop\Work\Fiverr\nodejs-script-svg\folder
+        console.log("\nWelcome to the file cleaner.");
+        let url = await questionAsync(rl, 'Enter the path you want to start from ? ');
+        let results = await walkAsync(url, ".svg");
+        
+        let ext = await questionAsync(rl1, 'Enter the file extension you want to clean from the selected folder ? ');    
+        if(ext.match(/svg/i)) {
+          console.log("You cannot delete the svg files.");
+          return;
         }
-        console.log(results);
-        results.forEach(function(svgPath){
+        let resultsDel = await walkAsync(url, "." + ext);
+        let resUppercase = await walkAsync(url, "." + ext.toUpperCase());
+        resultsDel.push.apply(resultsDel, resUppercase);   
 
-            fs.readFile(svgPath, 'utf8', function(err, data) {
+        resultsDel.forEach(function(svgPath){
+            fs.unlinkSync(svgPath);
+        });
+        console.log(resultsDel.length + " files with extension \"" + ext + "\" were deleted succesfully.");
+    
+        results.forEach(async function(svgPath){
+            let data = fs.readFileSync(svgPath, 'utf8');
+            let res = await svgo.optimize(data, {path: svgPath});
+            fs.writeFileSync(svgPath, res.data);
+        });
+        console.log(results.length + " files with extension \"svg\" were modified succesfully.");
 
-                if (err) {
-                    console.log("Error on file loading: " + err);
-                    throw err;
-                }
-
-                svgo.optimize(data, {path: svgPath}).then(function(result) {
-                    console.log("Started optiomizing file.");
-                    fs.writeFile(svgPath, result.data, function(err, data){
-                          if(err){
-                            console.log("error on writeFile: "+ err);
-                            throw err;
-                          }
-                          console.log("Finished optimizing file");
-                    }); 
-                });
-            });
-
-        })
         rl.close();
-    });
-});
+        rl1.close();
 
 
+    } catch(ex) {
+        console.log(" Error on try/catch mainF: " + ex);
+        throw ex;
+    }
 
+}
+
+mainF()
+  .then(()=>{
+      console.log("Finished modifying/cleaning.\n");
+  })
+  .catch((ex)=>{
+      console.log("Error on mainF: " + ex);
+  })
