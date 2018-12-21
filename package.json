@@ -10,6 +10,7 @@
   "author": "Deni Begaj",
   "license": "MIT",
   "dependencies": {
+    "clipboardy": "^1.2.3",
     "fs": "0.0.1-security",
     "svgo": "^1.1.1"
   }

@@ -2,6 +2,17 @@ const fs = require('fs');
 const path = require('path');
 const svgoPlugin = require('svgo');
 const readline = require('readline');
+const clipboardy = require('clipboardy');
+const exec = require('child_process').exec;
+
+var getClipboard = function(func) {
+  exec('/usr/bin/xclip -o -selection clipboard', function(err, stdout, stderr) {
+    if (err || stderr) return func(err || new Error(stderr));
+    func(null, stdout);
+  });
+};
+
+
 const svgo = new svgoPlugin({
     plugins: [{
           cleanupAttrs: false,
@@ -107,6 +118,20 @@ let walk = function(dir, ext, done) {
     });
 };
 
+let getClipboardAsync = function(){
+  return new Promise((resolve, reject) => {
+
+    getClipboard(function(err, result) {
+      if (err) {
+          reject(err); 
+      } else {
+          resolve(result);
+      }
+    });
+
+  })
+}
+
 let walkAsync = function(dir, ext)  {
   return new Promise((resolve, reject) => {
     walk(dir, ext, function(err, result) {
@@ -132,7 +157,12 @@ let mainF = async function() {
 
         // C:\Users\XIAOMI\Desktop\Work\Fiverr\nodejs-script-svg\folder
         console.log("\nWelcome to the file cleaner.\n");
-        let url = await questionAsync(rl, 'Enter the path you want to start from ? (Shift + Insert)  ');
+        // let url = await questionAsync(rl, 'Enter the path you want to start from ? (Shift + Insert)  ');
+        let url = clipboardy.readSync();
+        console.log("The path entered is : " + url);
+        while(url == "" || !url) {
+          console.log("Clipboard is empty. Please try again.");
+        }
         let results = await walkAsync(url, ".svg");
         
         let ext = await questionAsync(rl, 'Enter the file extension you want to clean from the selected folder ?');    
