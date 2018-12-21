@@ -132,10 +132,10 @@ let mainF = async function() {
 
         // C:\Users\XIAOMI\Desktop\Work\Fiverr\nodejs-script-svg\folder
         console.log("\nWelcome to the file cleaner.\n");
-        let url = await questionAsync(rl, 'Enter the path you want to start from ? ');
+        let url = await questionAsync(rl, 'Enter the path you want to start from ? (Shift + Insert)  ');
         let results = await walkAsync(url, ".svg");
         
-        let ext = await questionAsync(rl, 'Enter the file extension you want to clean from the selected folder ? (Shift + Insert) ');    
+        let ext = await questionAsync(rl, 'Enter the file extension you want to clean from the selected folder ?');    
         if(!ext.match(/svg/i)) {
           
           let resultsDel = await walkAsync(url, "." + ext);
