@@ -135,7 +135,7 @@ let mainF = async function() {
         let url = await questionAsync(rl, 'Enter the path you want to start from ? ');
         let results = await walkAsync(url, ".svg");
         
-        let ext = await questionAsync(rl, 'Enter the file extension you want to clean from the selected folder ? ');    
+        let ext = await questionAsync(rl, 'Enter the file extension you want to clean from the selected folder ? (Shift + Insert) ');    
         if(!ext.match(/svg/i)) {
           
           let resultsDel = await walkAsync(url, "." + ext);
