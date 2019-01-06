@@ -14,75 +14,147 @@ var getClipboard = function(func) {
 
 
 const svgo = new svgoPlugin({
-    plugins: [{
-          cleanupAttrs: false,
-        }, {
-          removeDoctype: false,
-        },{
-          removeXMLProcInst: false,
-        },{
-          removeComments: false,
-        },{
-          removeMetadata: false,
-        },{
-          removeTitle: false,
-        },{
-          removeDesc: false,
-        },{
-          removeUselessDefs: false,
-        },{
-          removeEditorsNSData: false,
-        },{
-          removeEmptyAttrs: false,
-        },{
-          removeHiddenElems: false,
-        },{
-          removeEmptyText: false,
-        },{
-          removeEmptyContainers: false,
-        },{
-          removeViewBox: false,
-        },{
-          cleanupEnableBackground: false,
-        },{
-          convertStyleToAttrs: false,
-        },{
-          convertColors: false,
-        },{
-          convertPathData: false,
-        },{
-          convertTransform: false,
-        },{
-          removeUnknownsAndDefaults: false,
-        },{
-          removeNonInheritableGroupAttrs: false,
-        },{
-          removeUselessStrokeAndFill: false,
-        },{
-          removeUnusedNS: false,
-        },{
-          cleanupIDs: false,
-        },{
-          cleanupNumericValues: false,
-        },{
-          moveElemsAttrsToGroup: false,
-        },{
-          moveGroupAttrsToElems: false,
-        },{
-          collapseGroups: false,
-        },{
-          removeRasterImages: false,
-        },{
-          mergePaths: false,
-        },{
-          convertShapeToPath: false,
-        },{
-          sortAttrs: false,
-        },{
-          removeDimensions: true,
-        },{
-          removeAttrs: {attrs: '(stroke|fill)'},
-        }]
+  plugins: [{
+        cleanupAttrs: false,
+      }, {
+        removeDoctype: false,
+      },{
+        removeXMLProcInst: false,
+      },{
+        removeComments: false,
+      },{
+        removeMetadata: false,
+      },{
+        removeTitle: false,
+      },{
+        removeDesc: false,
+      },{
+        removeUselessDefs: false,
+      },{
+        removeEditorsNSData: false,
+      },{
+        removeEmptyAttrs: false,
+      },{
+        removeHiddenElems: false,
+      },{
+        removeEmptyText: false,
+      },{
+        removeEmptyContainers: false,
+      },{
+        removeViewBox: false,
+      },{
+        cleanupEnableBackground: false,
+      },{
+        convertStyleToAttrs: false,
+      },{
+        convertColors: false,
+      },{
+        convertPathData: false,
+      },{
+        convertTransform: false,
+      },{
+        removeUnknownsAndDefaults: false,
+      },{
+        removeNonInheritableGroupAttrs: false,
+      },{
+        removeUselessStrokeAndFill: false,
+      },{
+        removeUnusedNS: false,
+      },{
+        cleanupIDs: false,
+      },{
+        cleanupNumericValues: true,
+      },{
+        moveElemsAttrsToGroup: false,
+      },{
+        moveGroupAttrsToElems: false,
+      },{
+        collapseGroups: false,
+      },{
+        removeRasterImages: false,
+      },{
+        mergePaths: false,
+      },{
+        convertShapeToPath: false,
+      },{
+        sortAttrs: false,
+      },{
+        removeDimensions: false,
+      },{
+        removeAttrs: {attrs: '(stroke|fill)'},
+      }]
+});
+
+const svgo1 = new svgoPlugin({
+  plugins: [{
+        cleanupAttrs: false,
+      }, {
+        removeDoctype: false,
+      },{
+        removeXMLProcInst: false,
+      },{
+        removeComments: false,
+      },{
+        removeMetadata: false,
+      },{
+        removeTitle: false,
+      },{
+        removeDesc: false,
+      },{
+        removeUselessDefs: false,
+      },{
+        removeEditorsNSData: false,
+      },{
+        removeEmptyAttrs: false,
+      },{
+        removeHiddenElems: false,
+      },{
+        removeEmptyText: false,
+      },{
+        removeEmptyContainers: false,
+      },{
+        removeViewBox: false,
+      },{
+        cleanupEnableBackground: false,
+      },{
+        convertStyleToAttrs: false,
+      },{
+        convertColors: false,
+      },{
+        convertPathData: false,
+      },{
+        convertTransform: false,
+      },{
+        removeUnknownsAndDefaults: false,
+      },{
+        removeNonInheritableGroupAttrs: false,
+      },{
+        removeUselessStrokeAndFill: false,
+      },{
+        removeUnusedNS: false,
+      },{
+        cleanupIDs: false,
+      },{
+        cleanupNumericValues: true,
+      },{
+        moveElemsAttrsToGroup: false,
+      },{
+        moveGroupAttrsToElems: false,
+      },{
+        collapseGroups: false,
+      },{
+        removeRasterImages: false,
+      },{
+        mergePaths: false,
+      },{
+        convertShapeToPath: false,
+      },{
+        sortAttrs: false,
+      },{
+        removeDimensions: false,
+      },{
+        removeAttrs: {attrs: '(stroke|fill)'},
+      }]
 });
 
 const rl = readline.createInterface({ input: process.stdin, output: process.stdout, terminal:false });
@@ -155,7 +227,7 @@ let questionAsync = function(rl, str)  {
 let mainF = async function() {
     try {
 
-        // C:\Users\XIAOMI\Desktop\Work\Fiverr\nodejs-script-svg\folder
+        //C:\Users\XIAOMI\Desktop\Work\Fiverr\node-svgo-example\folder
         console.log("\nWelcome to the file cleaner.\n");
         // let url = await questionAsync(rl, 'Enter the path you want to start from ? (Shift + Insert)  ');
         let url = clipboardy.readSync();
@@ -163,25 +235,30 @@ let mainF = async function() {
         while(url == "" || !url) {
           console.log("Clipboard is empty. Please try again.");
         }
+        //remove "".
+        url = url.replace(/\"/g, "");
         let results = await walkAsync(url, ".svg");
         
-        let ext = await questionAsync(rl, 'Enter the file extension you want to clean from the selected folder ?');    
+        let ext = await questionAsync(rl, 'Enter the file extension you want to clean from the selected folder ? ');    
         if(!ext.match(/svg/i)) {
           
           let resultsDel = await walkAsync(url, "." + ext);
           let resUppercase = await walkAsync(url, "." + ext.toUpperCase());
           resultsDel.push.apply(resultsDel, resUppercase);   
           
-          resultsDel.forEach(function(svgPath){
-            fs.unlinkSync(svgPath);
+          resultsDel.forEach(function(path){
+            fs.unlinkSync(path);
           });
           console.log("\n" + resultsDel.length + " files with extension \"" + ext + "\" were deleted succesfully.");
         }
     
         results.forEach(async function(svgPath){
-            let data = fs.readFileSync(svgPath, 'utf8');
-            let res = await svgo.optimize(data, {path: svgPath});
-            fs.writeFileSync(svgPath, res.data);
+            console.log(svgPath);
+            if(svgPath.indexOf("-character") == -1 && svgPath.indexOf("-Character") == -1) {
+              let data = fs.readFileSync(svgPath, 'utf8');
+              let res = await svgo.optimize(data, {path: svgPath});
+              fs.writeFileSync(svgPath, res.data);
+            }
         });
         console.log(results.length + " files with extension \"svg\" were modified succesfully.");
 
