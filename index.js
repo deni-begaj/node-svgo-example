@@ -12,7 +12,6 @@ var getClipboard = function(func) {
   });
 };
 
-
 const svgo = new svgoPlugin({
   plugins: [{
         cleanupAttrs: false,
@@ -85,80 +84,7 @@ const svgo = new svgoPlugin({
       }]
 });
 
-const svgo1 = new svgoPlugin({
-  plugins: [{
-        cleanupAttrs: false,
-      }, {
-        removeDoctype: false,
-      },{
-        removeXMLProcInst: false,
-      },{
-        removeComments: false,
-      },{
-        removeMetadata: false,
-      },{
-        removeTitle: false,
-      },{
-        removeDesc: false,
-      },{
-        removeUselessDefs: false,
-      },{
-        removeEditorsNSData: false,
-      },{
-        removeEmptyAttrs: false,
-      },{
-        removeHiddenElems: false,
-      },{
-        removeEmptyText: false,
-      },{
-        removeEmptyContainers: false,
-      },{
-        removeViewBox: false,
-      },{
-        cleanupEnableBackground: false,
-      },{
-        convertStyleToAttrs: false,
-      },{
-        convertColors: false,
-      },{
-        convertPathData: false,
-      },{
-        convertTransform: false,
-      },{
-        removeUnknownsAndDefaults: false,
-      },{
-        removeNonInheritableGroupAttrs: false,
-      },{
-        removeUselessStrokeAndFill: false,
-      },{
-        removeUnusedNS: false,
-      },{
-        cleanupIDs: false,
-      },{
-        cleanupNumericValues: true,
-      },{
-        moveElemsAttrsToGroup: false,
-      },{
-        moveGroupAttrsToElems: false,
-      },{
-        collapseGroups: false,
-      },{
-        removeRasterImages: false,
-      },{
-        mergePaths: false,
-      },{
-        convertShapeToPath: false,
-      },{
-        sortAttrs: false,
-      },{
-        removeDimensions: false,
-      },{
-        removeAttrs: {attrs: '(stroke|fill)'},
-      }]
-});
-
 const rl = readline.createInterface({ input: process.stdin, output: process.stdout, terminal:false });
-const rl1 = readline.createInterface({ input: process.stdin, output: process.stdout });
 
 let walk = function(dir, ext, done) {
     let results = [];
@@ -252,9 +178,25 @@ let mainF = async function() {
           console.log("\n" + resultsDel.length + " files with extension \"" + ext + "\" were deleted succesfully.");
         }
     
-        results.forEach(async function(svgPath){
-            console.log(svgPath);
-            if(svgPath.indexOf("-character") == -1 && svgPath.indexOf("-Character") == -1) {
+        results.forEach(async function(svgPath) {
+            if(
+                svgPath.indexOf("-character") == -1 && 
+                svgPath.indexOf("-Character") == -1 &&
+                svgPath.indexOf("-[character]") == -1 &&
+                svgPath.indexOf("-[Character]") == -1 &&
+                svgPath.indexOf("-(character)") == -1 &&
+                svgPath.indexOf("-(Character)") == -1 &&
+                svgPath.indexOf("-{character}") == -1 &&
+                svgPath.indexOf("-{Character}") == -1 &&
+                svgPath.indexOf("-.character.") == -1 &&
+                svgPath.indexOf("-.Character.") == -1 &&
+                svgPath.indexOf("-#character#") == -1 &&
+                svgPath.indexOf("-#Character#") == -1 &&
+                svgPath.indexOf("-*character*") == -1 &&
+                svgPath.indexOf("-*Character*") == -1 &&
+                svgPath.indexOf("-^character^") == -1 &&
+                svgPath.indexOf("-^Character^") == -1
+               ) {
               let data = fs.readFileSync(svgPath, 'utf8');
               let res = await svgo.optimize(data, {path: svgPath});
               fs.writeFileSync(svgPath, res.data);
@@ -263,7 +205,6 @@ let mainF = async function() {
         console.log(results.length + " files with extension \"svg\" were modified succesfully.");
 
         rl.close();
-        // rl1.close();
 
 
     } catch(ex) {
